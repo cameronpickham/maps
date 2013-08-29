@@ -37,9 +37,6 @@ app.configure ->
 app.engine 'html', require('ejs').renderFile
 app.set 'views', __dirname + '/views'
 
-
-console.log 'ASDF', config.client_id
-
 # Hello
 CALLBACK_URL="https://maps.cameronpickham.com/auth/foursquare/callback"
 passport.use(new FoursquareStrategy(
@@ -57,6 +54,36 @@ app.get '/auth/foursquare/callback', passport.authenticate 'foursquare', {succes
   console.log 'HIT AUTH CALLBACK'
   res.redirect '/'
 
+app.get '/checkins.json', (req, res) ->
+  db.collection 'checkins', (err, collection) ->
+    collection.find().toArray (err, data) ->
+      res.json(data)
+
+app.post '/', (req, res) ->
+  console.log "GOT A POST"
+  checkin = JSON.parse(req.body.checkin)
+  venue = checkin.venue
+  lat_lng = [venue.location.lat, venue.location.lng]
+  name = venue.name
+  text = checkin.shout
+
+  checkin =
+    name: name
+    lat_lng: lat_lng
+    text: text
+
+  db.collection 'foursquare', (err, collection) ->
+    collection.findOne { "lat_lng": lat_lng }, (err, item) ->
+      if item?
+        updateCheckin = collection.update {"lat_lng": lat_lng}, {$set: {text:text}}, (err, result) ->
+          return err if err
+          console.log "Updated a checkin!"
+      else
+        collection.insert checkin, {safe: true}, (err, result) ->
+          return err if err
+          console.log "Inserted a checkin!"
+
+  res.send "Done!"
 
 app.listen port, ->
   console.log "Listening on port #{port}"
