@@ -4,6 +4,9 @@ mongo    = require 'mongodb'
 FoursquareStrategy = require('passport-foursquare').Strategy
 path     = require 'path'
 routes   = require './routes'
+config   = require './config'
+
+console.log config
 
 MongoServer = mongo.Server
 console.log MongoServer?
@@ -28,13 +31,32 @@ app.configure ->
   app.use express.static(path.join(__dirname, "public"))
   app.use express.errorHandler()  if "development" is app.get("env")
   app.use app.router
+  app.use(passport.initialize())
+  app.use(passport.session())
 
 app.engine 'html', require('ejs').renderFile
 app.set 'views', __dirname + '/views'
 
+
+console.log 'ASDF', config.client_id
+
+# Hello
+CALLBACK_URL="https://maps.cameronpickham.com/auth/foursquare/callback"
+passport.use(new FoursquareStrategy(
+  {clientID: config.client_id, clientSecret: config.client_secret, callbackURL: CALLBACK_URL},
+  (accessToken, refreshToken, profile, done) ->
+    console.log "ACCESS! SUCCESS!"
+    return done(null,"user")
+))
+
 port = process.env.PORT or 3000
 
 app.get '/', routes.index
+
+app.get '/auth/foursquare/callback', passport.authenticate 'foursquare', {successRedirect: '/', failureRedirect: '/'}, (req, res) ->
+  console.log 'HIT AUTH CALLBACK'
+  res.redirect '/'
+
 
 app.listen port, ->
   console.log "Listening on port #{port}"
