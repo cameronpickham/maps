@@ -1,11 +1,13 @@
 express  = require 'express'
 passport = require 'passport'
-mongo    = require 'mongo'
+mongo    = require 'mongodb'
 FoursquareStrategy = require('passport-foursquare').Strategy
-
 path     = require 'path'
+routes   = require './routes'
 
 MongoServer = mongo.Server
+console.log MongoServer?
+console.log mongo?
 MongoDB     = mongo.Db
 MongoBSON   = mongo.BSONPure
 
@@ -25,8 +27,14 @@ app.configure ->
   app.use express.logger("dev")
   app.use express.static(path.join(__dirname, "public"))
   app.use express.errorHandler()  if "development" is app.get("env")
+  app.use app.router
+
+app.engine 'html', require('ejs').renderFile
+app.set 'views', __dirname + '/views'
 
 port = process.env.PORT or 3000
+
+app.get '/', routes.index
 
 app.listen port, ->
   console.log "Listening on port #{port}"
