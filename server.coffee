@@ -72,7 +72,7 @@ app.post '/', (req, res) ->
     lat_lng: lat_lng
     text: text
 
-  db.collection 'foursquare', (err, collection) ->
+  db.collection 'checkins', (err, collection) ->
     collection.findOne { "lat_lng": lat_lng }, (err, item) ->
       if item?
         updateCheckin = collection.update {"lat_lng": lat_lng}, {$set: {text:text}}, (err, result) ->
