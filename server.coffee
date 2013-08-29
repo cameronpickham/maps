@@ -1,20 +1,21 @@
-path = require("path")
 express  = require 'express'
 passport = require 'passport'
 mongo    = require 'mongo'
 FoursquareStrategy = require('passport-foursquare').Strategy
+
+path     = require 'path'
 
 MongoServer = mongo.Server
 MongoDB     = mongo.Db
 MongoBSON   = mongo.BSONPure
 
 db_server   = new MongoServer('localhost', 27017, {auto_reconnect: true})
-db          = new MongoDB('foursquare', db_server, (safe: true})
+db          = new MongoDB('foursquare', db_server, {safe: true})
 
 db.open (err, db) ->
   unless err
     console.log "Connected to the database"
-    db.collection 'checkins' {strict: true}, (err, collection) ->
+    db.collection 'checkins', {strict: true}, (err, collection) ->
       console.log "No collection" if err
 
 app = express()
