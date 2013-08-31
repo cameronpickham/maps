@@ -53,8 +53,10 @@ app.get '/auth/foursquare/callback', passport.authenticate 'foursquare', {succes
   res.redirect '/'
 
 app.get '/checkins.json', (req, res) ->
+  console.log 'hello lol'
   db.collection 'checkins', (err, collection) ->
     collection.find().toArray (err, data) ->
+      console.log 'got this far'
       res.json(data)
 
 # POST
