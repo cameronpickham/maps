@@ -28,6 +28,9 @@ plot = (place, map) ->
     position: new google.maps.LatLng(latLng[0], latLng[1])
   )
 
-  google.maps.event.addListener(marker, 'click', ->
+  google.maps.event.addListener(marker, 'mouseover', ->
     info_window.open(map, marker)
+  )
+  google.maps.event.addListener(marker, 'mouseout', ->
+    info_window.close()
   )

@@ -12,18 +12,21 @@ db.open (err, db) ->
     db.collection 'checkins', {strict: true}, (err, collection) ->
       console.log "Couldn't connect to collection" if err
 
-  checkins = checkins_json.response.checkins.items
+      checkins = checkins_json.response.checkins.items
 
-  for checkin in checkins
-    do (checkin) ->
-      place =
-        name: checkin.venue.name
-        lat_lng: [checkin.venue.location.lat, checkin.venue.location.lng]
-        count: checkin.venue.beenHere.count
-        createdAt: checkin.createdAt
-      db.collection 'checkins', (err, collection) ->
-        collection.insert place, {safe: true}, (err, result) ->
-          return err if err
-          console.log "Just inserted " + place.name + "!"
-  console.log "Done"
+      for checkin in checkins
+        do (checkin) ->
+          place =
+            _id: checkin.venue.id
+            name: checkin.venue.name
+            latLng: [checkin.venue.location.lat, checkin.venue.location.lng]
+            count: checkin.venue.beenHere.count
+          collection.findOne {_id: place._id}, (err, item) ->
+            if item?
+              collection.update {_id: place._id }, { $set: {count: place.count } }, (err, result) ->
+                console.log "Updated!"
+            else
+              collection.insert place, {safe: true}, (err, result) ->
+                return err if err
+                console.log "Just inserted " + place.name + "!"
 

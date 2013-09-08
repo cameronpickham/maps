@@ -39,8 +39,11 @@
       map: map,
       position: new google.maps.LatLng(latLng[0], latLng[1])
     });
-    return google.maps.event.addListener(marker, 'click', function() {
+    google.maps.event.addListener(marker, 'mouseover', function() {
       return info_window.open(map, marker);
+    });
+    return google.maps.event.addListener(marker, 'mouseout', function() {
+      return info_window.close();
     });
   };
 
