@@ -4,19 +4,9 @@ mongo    = require 'mongodb'
 path     = require 'path'
 routes   = require './routes'
 config   = require './config'
+parser   = require './parser'
 
 FoursquareStrategy = require('passport-foursquare').Strategy
-MongoServer        = mongo.Server
-MongoDB            = mongo.Db
-db_server          = new MongoServer('localhost', 27017, {auto_reconnect: true})
-db                 = new MongoDB('foursquare', db_server, {safe: true})
-
-# Open collection
-db.open (err, db) ->
-  unless err
-    console.log "Connected to the database"
-    db.collection 'checkins', {strict: true}, (err, collection) ->
-      console.log "Couldn't connect to collection" if err
 
 # Configure
 app = express()
@@ -53,37 +43,15 @@ app.get '/auth/foursquare/callback', passport.authenticate 'foursquare', {succes
   res.redirect '/'
 
 app.get '/checkins.json', (req, res) ->
-  console.log 'hello lol'
-  db.collection 'checkins', (err, collection) ->
-    collection.find().toArray (err, data) ->
-      console.log 'got this far'
-      res.json(data)
+  parser.getPlaces (data) ->
+    res.json(data)
 
 # POST
 app.post '/', (req, res) ->
   checkin = JSON.parse(req.body.checkin)
-  venue = checkin.venue
-  lat_lng = [venue.location.lat, venue.location.lng]
-  name = venue.name
-  text = checkin.shout
-
-  checkin =
-    name: name
-    lat_lng: lat_lng
-    text: text
-
-  db.collection 'checkins', (err, collection) ->
-    collection.findOne { "lat_lng": lat_lng }, (err, item) ->
-      if item?
-        updateCheckin = collection.update {"lat_lng": lat_lng}, {$set: {text:text}}, (err, result) ->
-          return err if err
-          console.log "Updated a checkin!"
-      else
-        collection.insert checkin, {safe: true}, (err, result) ->
-          return err if err
-          console.log "Inserted a checkin!"
-
-  res.send "Done!"
+  place = parser.parsePlace(checkin)
+  parser.updatePlaces(place)
+  res.send "Thank you!"
 
 # Listen
 app.listen port, ->

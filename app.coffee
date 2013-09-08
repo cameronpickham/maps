@@ -8,7 +8,7 @@ go = ->
 
 initialize = ->
   mapOptions =
-    zoom: 8
+    zoom: 11
     center: new google.maps.LatLng(34.02234, -118.28512)
     mapTypeId: google.maps.MapTypeId.ROADMAP
 
@@ -17,7 +17,7 @@ initialize = ->
   plot(place, map) for place in places
 
 plot = (place, map) ->
-  lat_lng = place.lat_lng
+  latLng = place.latLng
 
   info_window = new google.maps.InfoWindow(
     content: place.name
@@ -25,7 +25,7 @@ plot = (place, map) ->
 
   marker = new google.maps.Marker(
     map: map
-    position: new google.maps.LatLng(lat_lng[0], lat_lng[1])
+    position: new google.maps.LatLng(latLng[0], latLng[1])
   )
 
   google.maps.event.addListener(marker, 'click', ->

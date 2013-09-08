@@ -16,7 +16,7 @@
   initialize = function() {
     var map, mapOptions, place, _i, _len, _results;
     mapOptions = {
-      zoom: 8,
+      zoom: 11,
       center: new google.maps.LatLng(34.02234, -118.28512),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -30,14 +30,14 @@
   };
 
   plot = function(place, map) {
-    var info_window, lat_lng, marker;
-    lat_lng = place.lat_lng;
+    var info_window, latLng, marker;
+    latLng = place.latLng;
     info_window = new google.maps.InfoWindow({
       content: place.name
     });
     marker = new google.maps.Marker({
       map: map,
-      position: new google.maps.LatLng(lat_lng[0], lat_lng[1])
+      position: new google.maps.LatLng(latLng[0], latLng[1])
     });
     return google.maps.event.addListener(marker, 'click', function() {
       return info_window.open(map, marker);
