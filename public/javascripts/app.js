@@ -33,7 +33,7 @@
     var info_window, latLng, marker;
     latLng = place.latLng;
     info_window = new google.maps.InfoWindow({
-      content: place.name
+      content: "" + place.name + ": " + place.count
     });
     marker = new google.maps.Marker({
       map: map,
