@@ -1,5 +1,6 @@
 mongo         = require 'mongodb'
 checkins_json = require './pulled_data'
+parser = require './parser'
 
 MongoServer = mongo.Server
 MongoDB     = mongo.Db
@@ -16,14 +17,10 @@ db.open (err, db) ->
 
       for checkin in checkins
         do (checkin) ->
-          place =
-            _id: checkin.venue.id
-            name: checkin.venue.name
-            latLng: [checkin.venue.location.lat, checkin.venue.location.lng]
-            count: checkin.venue.beenHere.count
+          place = parser.parsePlace(checkin)
           collection.findOne {_id: place._id}, (err, item) ->
             if item?
-              collection.update {_id: place._id }, { $set: {count: place.count } }, (err, result) ->
+              collection.update {_id: place._id }, { $set: {count: item.count+1 } }, (err, result) ->
                 console.log "Updated!"
             else
               collection.insert place, {safe: true}, (err, result) ->
