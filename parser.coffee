@@ -23,7 +23,8 @@ class Parser
     @db.collection "checkins", (err, collection) ->
       collection.findOne { _id: place._id }, (err, item) ->
         if item?
-          collection.update { _id: place._id }, { $set: { count: place.count } }, (err, result) ->
+          newCount = item.count+1
+          collection.update { _id: place._id }, { $set: { count: newCount } }, (err, result) ->
             console.log "Updated!"
         else
           collection.insert place, { safe: true }, (err, result) ->
@@ -31,14 +32,13 @@ class Parser
   
   parsePlace: (checkin) ->
     { venue } = checkin
-    { name, location, id } = venue
-    { beenHere } = venue if venue.beenHere?
+    { name, location, id, beenHere } = venue
     latLng = [location.lat, location.lng]
 
     return place =
       _id: id
       name: name
       latLng: latLng
-      count: beenHere?.count
+      count: beenHere?.count or 1
 
 module.exports = new Parser()
