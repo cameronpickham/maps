@@ -31,13 +31,14 @@ class Parser
             console.log "Inserted!"
   
   parsePlace: (checkin) ->
-    { venue } = checkin
+    { venue, createdAt } = checkin
     { name, location, id, beenHere } = venue
     latLng = [location.lat, location.lng]
 
     return place =
       _id: id
       name: name
+      createdAt: createdAt
       latLng: latLng
       count: beenHere?.count or 1
 
