@@ -1,11 +1,11 @@
 mongo         = require 'mongodb'
 checkins_json = require './pulled_data'
-parser = require './parser'
+parser        = require './parser'
 
-MongoServer = mongo.Server
-MongoDB     = mongo.Db
-db_server   = new MongoServer('localhost', 27017, {auto_reconnect: true})
-db          = new MongoDB('foursquare', db_server, {safe: true})
+MongoServer   = mongo.Server
+MongoDB       = mongo.Db
+db_server     = new MongoServer('localhost', 27017, {auto_reconnect: true})
+db            = new MongoDB('foursquare', db_server, {safe: true})
 
 db.open (err, db) ->
   unless err
