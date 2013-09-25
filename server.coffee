@@ -1,26 +1,25 @@
 express  = require 'express'
 passport = require 'passport'
 mongo    = require 'mongodb'
-path     = require 'path'
-routes   = require './routes'
 config   = require './config'
 parser   = require './parser'
 
 FoursquareStrategy = require('passport-foursquare').Strategy
 
-# Configure
 app = express()
-app.configure ->
-  app.use express.bodyParser()
-  app.use express.methodOverride()
-  app.use express.logger("dev")
-  app.use express.static(path.join(__dirname, "public"))
-  app.use express.errorHandler()  if "development" is app.get("env")
-  app.use app.router
-  app.use(passport.initialize())
-  app.use(passport.session())
-app.engine 'html', require('ejs').renderFile
+
 app.set 'views', __dirname + '/views'
+app.set 'view engine', 'jade'
+
+app.use express.bodyParser()
+app.use express.methodOverride()
+app.use express.logger("dev")
+app.use app.router
+app.use express.static(__dirname + "/static")
+
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 # Foursquare auth callback
 CALLBACK_URL="https://maps.cameronpickham.com/auth/foursquare/callback"
@@ -37,7 +36,8 @@ passport.use(new FoursquareStrategy(
 port = process.env.PORT or 3000
 
 # GET
-app.get '/', routes.index
+app.get '/', (req, res) ->
+  res.render 'index'
 
 app.get '/auth/foursquare/callback', passport.authenticate 'foursquare', {successRedirect: '/', failureRedirect: '/'}, (req, res) ->
   res.redirect '/'
