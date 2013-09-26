@@ -37,7 +37,9 @@ port = process.env.PORT or 3000
 
 # GET
 app.get '/', (req, res) ->
-  console.log req.headers['x-forwarded-for'] || req.connection.remoteAddress
+  offset = -7
+  dateTime = new Date( new Date().getTime() + offset * 3600 * 1000).toUTCString().replace(/GMT/g, "PST")
+  console.log "Accessed by", (req.headers['x-forwarded-for'] || req.connection.remoteAddress), "at", dateTime
   res.render 'index'
 
 app.get '/auth/foursquare/callback', passport.authenticate 'foursquare', {successRedirect: '/', failureRedirect: '/'}, (req, res) ->
