@@ -9,4 +9,7 @@ html
     script(type='text/javascript', src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
   body
     #map-canvas
+    #recent
+      each place in places
+        p #{place.name} at #{place.createdAt}
     script(type='text/javascript', src='./javascripts/app.js')

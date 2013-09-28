@@ -1,17 +1,23 @@
 html {
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
 }
 
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
 }
 
 #map-canvas {
-  margin: 0;
-  padding: 0;
+  float: left;
+  height: 100%;
+  width: 80%
+}
+
+#recent {
+  float: right;
+  width: 20%;
   height: 100%;
 }

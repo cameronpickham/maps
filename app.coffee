@@ -1,9 +1,10 @@
 places = []
 $.getJSON "./checkins.json", (data) ->
   places = data
-  go()
+  makeMap()
+  makeRecent()
 
-go = ->
+makeMap = ->
   google.maps.event.addDomListener window, "load", initialize()
 
 initialize = ->

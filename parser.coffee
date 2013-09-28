@@ -19,6 +19,11 @@ class Parser
       collection.find().toArray (err, data) ->
         cb data
 
+  getTenRecent: (cb) ->
+    @db.collection "checkins", (err, collection) ->
+      collection.find().sort( {createdAt: -1}).limit(10).toArray (err, items) ->
+        cb items
+
   updatePlaces: (place) ->
     @db.collection "checkins", (err, collection) ->
       collection.findOne { _id: place._id }, (err, item) ->
