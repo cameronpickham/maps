@@ -1,6 +1,7 @@
 mongo   = require 'mongoskin'
 request = require 'request'
-config = require './config'
+config  = require './config'
+moment  = require 'moment'
 
 class Parser
   constructor: ->
@@ -8,6 +9,10 @@ class Parser
     @db = mongo.db('localhost:27017/foursquare', { safe: true })
     @db.setMaxListeners(1000)
     @checkins = @db.collection('checkins')
+
+  toPrettyDate: (timestamp) ->
+    obj = moment.unix(timestamp)
+    return obj.format("dddd, MMMM Do YYYY, h:mm:ss a")
 
   getPlaces: (cb) ->
     @checkins.find().toArray (err, data) ->
@@ -26,6 +31,7 @@ class Parser
       _id: id
       name: name
       createdAt: createdAt
+      moment: @toPrettyDate(createdAt)
       latLng: latLng
       count: beenHere?.count or 1
   
@@ -66,7 +72,7 @@ class Parser
         newCount = item.count+1
         createdAt = if item.createdAt < place.createdAt then place.createdAt else item.createdAt
         
-        @checkins.update { _id: place._id }, { $set: { count: newCount, createdAt: createdAt } }, { }, (err, result) ->
+        @checkins.update { _id: place._id }, { $set: { count: newCount, createdAt: createdAt, moment: @toPrettyDate(createdAt) } }, { }, (err, result) ->
           console.log "Updated!"
       else
         @checkins.insert place, { safe: true }, (err, result) ->
