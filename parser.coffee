@@ -5,7 +5,6 @@ moment  = require 'moment'
 
 class Parser
   constructor: ->
-    console.log 'hi i am a new parser'
     @db = mongo.db('localhost:27017/foursquare', { safe: true })
     @db.setMaxListeners(1000)
     @checkins = @db.collection('checkins')

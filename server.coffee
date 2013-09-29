@@ -41,7 +41,6 @@ app.get '/', (req, res) ->
   dateTime = new Date( new Date().getTime() + offset * 3600 * 1000).toUTCString().replace(/GMT/g, "PST")
   console.log "Accessed by", (req.headers['x-forwarded-for'] || req.connection.remoteAddress), "at", dateTime
   places = parser.getTenRecent (places) ->
-    console.log places
     res.render 'index', { places: places }
 
 app.get '/auth/foursquare/callback', passport.authenticate 'foursquare', {successRedirect: '/', failureRedirect: '/'}, (req, res) ->
