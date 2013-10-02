@@ -1,8 +1,8 @@
+map = null
 places = []
 $.getJSON "./checkins.json", (data) ->
   places = data
   makeMap()
-  makeRecent()
 
 makeMap = ->
   google.maps.event.addDomListener window, "load", initialize()
@@ -33,3 +33,14 @@ plot = (place, map) ->
   
   google.maps.event.addListener marker, 'mouseout', ->
     info_window.close()
+
+$("#list").click ->
+  $("#menu").collapse('toggle')
+
+$(".recent").click (event) ->
+  clickedId = $(this).attr("id").substring(3)
+  ele = $("body").find('#' + "input-" + clickedId)
+  vals = ele.val().split(/[, ]+/)
+  latLng = vals.map((v) -> parseFloat(v))
+  map.setCenter(new google.maps.LatLng(latLng[0], latLng[1]))
+

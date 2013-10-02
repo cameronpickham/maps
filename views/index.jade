@@ -29,7 +29,7 @@ html
                 | Menu
             ul.nav.nav-tabs.nav-stacked
               each place in places
-                li: a(href="#")= place.name
+                li(id="li-#{place._id}").recent: a(href="#")= place.name
+                input(id="input-#{place._id}")(type='hidden', value='#{place.latLng}')
         #map-canvas
     script(type='text/javascript', src='./javascripts/app.js')
-    script(type='text/javascript', src='./javascripts/slider.js')
