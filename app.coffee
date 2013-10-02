@@ -12,6 +12,7 @@ initialize = ->
     zoom: 11
     center: new google.maps.LatLng(34.02234, -118.28512)
     mapTypeId: google.maps.MapTypeId.ROADMAP
+    disableDefaultUI: true
 
   map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions)
   

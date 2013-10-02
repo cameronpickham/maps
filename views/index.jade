@@ -1,15 +1,35 @@
+!!! 5
+- var menuItems = ["Recent", "Top List"];
 html
   head
-    title This is a map
-    meta(name='viewport', content='initial-scale=1.0, user-scalable=no')
-    meta(charset='utf-8')
+    title Maps
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
     link(rel='stylesheet', href='stylesheets/index.css')
     script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false')
     script(src='http://d3js.org/d3.v3.min.js', charset='utf-8')
     script(type='text/javascript', src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
+    script(src='./bootstrap/js/bootstrap.js')
+      
   body
-    #map-canvas
-    #recent
-      each place in places
-        p #{place.moment} -- #{place.name}
+    .navbar.navbar-fixed-top.navbar-inverse: .navbar-inner: .container
+      a.brand(href="#").
+        Maps
+      ul.nav.pull-right: li.dropdown
+        a.dropdown-toggle(href="#", data-toggle="dropdown")
+          | Lists
+          b.caret
+        ul#list.dropdown-menu
+          li: a(href="#") Recent
+    .viewport
+      .frame
+        #menu.menu.nav-collapse.collapse.width
+          .collapse-inner
+            .navbar.navbar-inverse
+              .navbar-inner
+                | Menu
+            ul.nav.nav-tabs.nav-stacked
+              each place in places
+                li: a(href="#")= place.name
+        #map-canvas
     script(type='text/javascript', src='./javascripts/app.js')
+    script(type='text/javascript', src='./javascripts/slider.js')
