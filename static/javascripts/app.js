@@ -18,7 +18,7 @@
   initialize = function() {
     var mapOptions, place, _i, _len, _results;
     mapOptions = {
-      zoom: 11,
+      zoom: 12,
       center: new google.maps.LatLng(34.02234, -118.28512),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true
@@ -62,7 +62,12 @@
     latLng = vals.map(function(v) {
       return parseFloat(v);
     });
-    return map.setCenter(new google.maps.LatLng(latLng[0], latLng[1]));
+    map.setCenter(new google.maps.LatLng(latLng[0], latLng[1]));
+    return $("#menu").collapse('toggle');
+  });
+
+  $("#close").click(function() {
+    return $("#menu").collapse('toggle');
   });
 
 }).call(this);

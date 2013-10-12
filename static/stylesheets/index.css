@@ -88,6 +88,7 @@ body .viewport .frame .menu.collapse.in.height {
 }
 
 body .viewport .frame .menu .collapse-inner {
+  text-align: center;
   position: relative;
   width: 250px;
   height: 100%; 
@@ -118,4 +119,9 @@ body .viewport .frame .view .navbar .navbar-inner .btn-navbar {
 body .viewport .frame .view #content {
   margin: auto 15px;
   text-align: justify; 
+}
+
+#close {
+  width: 50px;
+  display: inline-block;
 }

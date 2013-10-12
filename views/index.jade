@@ -31,5 +31,6 @@ html
               each place in places
                 li(id="li-#{place._id}").recent: a(href="#")= place.name
                 input(id="input-#{place._id}")(type='hidden', value='#{place.latLng}')
+            #close.button.btn.btn-default(type='button') Close
         #map-canvas
     script(type='text/javascript', src='./javascripts/app.js')

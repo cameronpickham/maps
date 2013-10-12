@@ -9,7 +9,7 @@ makeMap = ->
 
 initialize = ->
   mapOptions =
-    zoom: 11
+    zoom: 12
     center: new google.maps.LatLng(34.02234, -118.28512)
     mapTypeId: google.maps.MapTypeId.ROADMAP
     disableDefaultUI: true
@@ -43,4 +43,8 @@ $(".recent").click (event) ->
   vals = ele.val().split(/[, ]+/)
   latLng = vals.map((v) -> parseFloat(v))
   map.setCenter(new google.maps.LatLng(latLng[0], latLng[1]))
+  $("#menu").collapse('toggle')
+
+$("#close").click ->
+  $("#menu").collapse('toggle')
 
