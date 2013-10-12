@@ -1,24 +1,12 @@
-map = null
-places = []
-$.getJSON "./checkins.json", (data) ->
-  places = data
-  makeMap()
+mapOptions =
+  zoom: 12
+  center: new google.maps.LatLng(34.02234, -118.28512)
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+  disableDefaultUI: true
 
-makeMap = ->
-  google.maps.event.addDomListener window, "load", initialize()
+map = new google.maps.Map d3.select("#map-canvas").node(), mapOptions
 
-initialize = ->
-  mapOptions =
-    zoom: 12
-    center: new google.maps.LatLng(34.02234, -118.28512)
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-    disableDefaultUI: true
-
-  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions)
-  
-  plot(place, map) for place in places
-
-plot = (place, map) ->
+plot = (place) ->
   latLng = place.latLng
 
   info_window = new google.maps.InfoWindow
@@ -33,6 +21,32 @@ plot = (place, map) ->
   
   google.maps.event.addListener marker, 'mouseout', ->
     info_window.close()
+
+$.getJSON "./checkins.json", (data) ->
+  google.maps.event.addDomListener window, "load", do ->
+    plot(place) for place in data
+
+  overlay = new google.maps.OverlayView()
+
+  overlay.onAdd = ->
+    layer = d3.select(@getPanes().overlayLayer).append("div").attr("class", "stations")
+
+    overlay.draw = ->
+      transform = (d) ->
+        console.log 'hi', d
+        d = new google.maps.LatLng(d.value.latLng[0], d.value.latLng[1])
+        d = projection.fromLatLngToDivPixel(d)
+        d3.select(@).style("left", (d.x - padding) + "px").style "top", (d.y - padding) + "px"
+      
+      projection = @getProjection()
+      padding = 10
+     
+      marker = layer.selectAll("svg").data(d3.entries(data)).each(transform).enter().append("svg:svg").each(transform).attr("class", "marker")
+      marker.append("svg:circle").attr("r", 4.5).attr("cx", padding).attr "cy", padding
+
+  overlay.setMap map
+
+#######################################################################################
 
 $("#list").click ->
   $("#menu").collapse('toggle')
