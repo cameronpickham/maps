@@ -46,14 +46,13 @@
       layer = d3.select(this.getPanes().overlayLayer).append("div").attr("class", "stations");
       return overlay.draw = function() {
         var marker, padding, projection, transform;
+        projection = this.getProjection();
+        padding = 10;
         transform = function(d) {
-          console.log('hi', d);
           d = new google.maps.LatLng(d.value.latLng[0], d.value.latLng[1]);
           d = projection.fromLatLngToDivPixel(d);
           return d3.select(this).style("left", (d.x - padding) + "px").style("top", (d.y - padding) + "px");
         };
-        projection = this.getProjection();
-        padding = 10;
         marker = layer.selectAll("svg").data(d3.entries(data)).each(transform).enter().append("svg:svg").each(transform).attr("class", "marker");
         return marker.append("svg:circle").attr("r", 4.5).attr("cx", padding).attr("cy", padding);
       };

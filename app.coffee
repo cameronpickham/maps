@@ -32,17 +32,16 @@ $.getJSON "./checkins.json", (data) ->
     layer = d3.select(@getPanes().overlayLayer).append("div").attr("class", "stations")
 
     overlay.draw = ->
-      transform = (d) ->
-        console.log 'hi', d
-        d = new google.maps.LatLng(d.value.latLng[0], d.value.latLng[1])
-        d = projection.fromLatLngToDivPixel(d)
-        d3.select(@).style("left", (d.x - padding) + "px").style "top", (d.y - padding) + "px"
-      
       projection = @getProjection()
       padding = 10
-     
+
+      transform = (d) ->
+        d = new google.maps.LatLng(d.value.latLng[0], d.value.latLng[1])
+        d = projection.fromLatLngToDivPixel(d)
+        d3.select(@).style("left", (d.x - padding) + "px").style("top", (d.y - padding) + "px")
+      
       marker = layer.selectAll("svg").data(d3.entries(data)).each(transform).enter().append("svg:svg").each(transform).attr("class", "marker")
-      marker.append("svg:circle").attr("r", 4.5).attr("cx", padding).attr "cy", padding
+      marker.append("svg:circle").attr("r", 4.5).attr("cx", padding).attr("cy", padding)
 
   overlay.setMap map
 
