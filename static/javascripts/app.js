@@ -45,7 +45,6 @@
   });
 
   $("#recent").click(function() {
-    console.log('hello');
     return $("#menu").collapse('toggle');
   });
 
@@ -66,7 +65,6 @@
   });
 
   $("#overlay-toggle").click(function(event) {
-    console.log("toggle toggle toggle");
     return voronoiOverlay.toggleDOM();
   });
 

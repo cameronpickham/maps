@@ -48,7 +48,6 @@
     };
 
     Overlay.prototype.onRemove = function() {
-      console.log("Removing!");
       this.div_.parentNode.removeChild(this.div_);
       return this.div_ = null;
     };
