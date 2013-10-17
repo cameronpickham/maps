@@ -4,8 +4,6 @@ class App.Overlay extends google.maps.OverlayView
     @div_        = null
     @data       = data
     @svgOverlay = null
-    
-    @setMap map
 
   onAdd: ->
     layer = d3.select(@getPanes().overlayLayer).append("div").attr("id", "stations")

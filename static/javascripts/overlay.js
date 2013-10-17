@@ -11,7 +11,6 @@
       this.div_ = null;
       this.data = data;
       this.svgOverlay = null;
-      this.setMap(map);
     }
 
     Overlay.prototype.onAdd = function() {
