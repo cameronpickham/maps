@@ -1,7 +1,7 @@
 class App.Overlay extends google.maps.OverlayView
   constructor: (map, data) ->
-    @map_        = map
-    @div_        = null
+    @map_       = map
+    @div_       = null
     @data       = data
     @svgOverlay = null
 
