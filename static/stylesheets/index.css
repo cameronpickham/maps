@@ -126,19 +126,16 @@ body .viewport .frame .view #content {
   display: inline-block;
 }
 
-.stations, .stations svg {
+#stations svg {
+  position: relative;
+  width: 900px;
+  height: 600px;
+}
+
+#stations svg {
   position: absolute;
-}
-
-.stations svg {
-  width: 60px;
-  height: 20px;
-  padding-right: 100px;
-  font: 10px sans-serif;
-}
-
-.stations circle {
-  fill: brown;
-  stroke: black;
-  stroke-width: 1.5px;
+  top: -4000px;
+  left: -4000px;
+  width: 8000px;
+  height: 8000px; 
 }

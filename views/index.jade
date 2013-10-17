@@ -9,6 +9,8 @@ html
     script(src='http://mbostock.github.com/d3/d3.js?1.29.1', charset='utf-8')
     script(type='text/javascript', src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
     script(src='./bootstrap/js/bootstrap.js')
+    script(type='text/javascript', src='./javascripts/namespace.js')
+    script(type='text/javascript', src='./javascripts/overlay.js')
       
   body
     .navbar.navbar-fixed-top.navbar-inverse: .navbar-inner: .container
@@ -16,10 +18,11 @@ html
         Maps
       ul.nav.pull-right: li.dropdown
         a.dropdown-toggle(href="#", data-toggle="dropdown")
-          | Lists
+          | Things
           b.caret
         ul#list.dropdown-menu
-          li: a(href="#") Recent
+          li#recent: a(href="#") Recent
+          li#overlay-toggle: a(href="#") Voronoi
     .viewport
       .frame
         #menu.menu.nav-collapse.collapse.width
@@ -34,3 +37,4 @@ html
             #close.button.btn.btn-default(type='button') Close
         #map-canvas
     script(type='text/javascript', src='./javascripts/app.js')
+

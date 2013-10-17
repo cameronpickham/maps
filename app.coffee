@@ -5,6 +5,7 @@ mapOptions =
   disableDefaultUI: true
 
 map = new google.maps.Map d3.select("#map-canvas").node(), mapOptions
+voronoiOverlay = null
 
 plot = (place) ->
   latLng = place.latLng
@@ -25,29 +26,10 @@ plot = (place) ->
 $.getJSON "./checkins.json", (data) ->
   google.maps.event.addDomListener window, "load", do ->
     plot(place) for place in data
+  
+  voronoiOverlay = new App.Overlay(map, data)
 
-  overlay = new google.maps.OverlayView()
-
-  overlay.onAdd = ->
-    layer = d3.select(@getPanes().overlayLayer).append("div").attr("class", "stations")
-
-    overlay.draw = ->
-      projection = @getProjection()
-      padding = 10
-
-      transform = (d) ->
-        d = new google.maps.LatLng(d.value.latLng[0], d.value.latLng[1])
-        d = projection.fromLatLngToDivPixel(d)
-        d3.select(@).style("left", (d.x - padding) + "px").style("top", (d.y - padding) + "px")
-      
-      marker = layer.selectAll("svg").data(d3.entries(data)).each(transform).enter().append("svg:svg").each(transform).attr("class", "marker")
-      marker.append("svg:circle").attr("r", 4.5).attr("cx", padding).attr("cy", padding)
-
-  overlay.setMap map
-
-#######################################################################################
-
-$("#list").click ->
+$("#recent").click ->
   $("#menu").collapse('toggle')
 
 $(".recent").click (event) ->
@@ -61,3 +43,5 @@ $(".recent").click (event) ->
 $("#close").click ->
   $("#menu").collapse('toggle')
 
+$("#overlay-toggle").click (event) ->
+  voronoiOverlay.toggleDOM()
