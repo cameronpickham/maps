@@ -7,7 +7,7 @@ class App.Overlay extends google.maps.OverlayView
 
   onAdd: ->
     layer = d3.select(@getPanes().overlayLayer).append("div").attr("id", "stations")
-    svg = layer.append("svg")
+    svg   = layer.append("svg")
     @div_ = document.getElementById "stations"
     @svgOverlay = svg.append("g").attr("class", "lol")
 
@@ -17,10 +17,12 @@ class App.Overlay extends google.maps.OverlayView
 
     googleMapProjection = (coordinates) ->
       googleCoordinates = new google.maps.LatLng(coordinates[0], coordinates[1])
-      pixelCoordinates = overlayProjection.fromLatLngToDivPixel(googleCoordinates)
+      pixelCoordinates  = overlayProjection.fromLatLngToDivPixel(googleCoordinates)
+      
       return [pixelCoordinates.x + 4000, pixelCoordinates.y + 4000]
 
     positions = []
+    
     @data.forEach (d) ->
       positions.push(googleMapProjection(d.latLng))
 
