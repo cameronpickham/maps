@@ -10,18 +10,21 @@ plot = (place) ->
     position: new google.maps.LatLng(latLng[0], latLng[1])
 
   google.maps.event.addListener marker, 'mouseover', ->
-    unless infoWindow.state is 'zoom_open'
-      infoWindow.state = 'mouseover_open'
+    if infoWindow.state is "closed"
+      infoWindow.state = 'mouse_open'
       infoWindow.open(map, marker)
   
   google.maps.event.addListener marker, 'mouseout', ->
-    unless infoWindow.state is 'zoom_open'
+    if infoWindow.state is "mouse_open"
       infoWindow.state = 'closed'
       infoWindow.close()
   
   google.maps.event.addListener marker, 'click', ->
-    infoWindow.state = 'closed'
-    infoWindow.close()
+    if infoWindow.state is "zoom_open" or infoWindow.state is "click_open"
+      infoWindow.state = 'closed'
+      infoWindow.close()
+    else if infoWindow.state is "mouse_open"
+      infoWindow.state = 'click_open'
   
   popups["#{latLng[0]}#{latLng[1]}"] = { marker: marker, infoWindow: infoWindow }
 
