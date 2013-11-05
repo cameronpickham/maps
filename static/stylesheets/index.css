@@ -101,8 +101,8 @@ body .viewport .frame .menu .navbar .navbar-inner {
   line-height: 38px; 
 }
 
-.navbar-inner{
-border: 0px !important;
+.navbar-inner {
+  border: 0px !important;
 }
 
 body .viewport .frame .menu .nav-stacked {
