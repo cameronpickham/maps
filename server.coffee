@@ -3,6 +3,7 @@ passport = require 'passport'
 mongo    = require 'mongodb'
 config   = require './config'
 parser   = require './parser'
+coffee   = require 'coffee-middleware'
 
 FoursquareStrategy = require('passport-foursquare').Strategy
 
@@ -15,10 +16,18 @@ app.use express.bodyParser()
 app.use express.methodOverride()
 app.use express.logger("dev")
 app.use app.router
-app.use express.static(__dirname + "/static")
+app.use express.static(__dirname + "/public")
 
 app.use(passport.initialize())
 app.use(passport.session())
+
+options =
+  bare:   false
+  src:    __dirname + "/public/javascripts"
+  force:  true
+  prefix: "/javascripts"
+
+app.use(coffee(options))
 
 
 # Foursquare auth callback
