@@ -1,3 +1,5 @@
+#!/usr/bin/env coffee
+
 parser = require './parser'
 
 parser.scrape()
