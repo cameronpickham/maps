@@ -39,7 +39,7 @@ voronoiOverlay = null
 
 popups = {}
 
-$.getJSON "./checkins.json", (data) ->
+$.getJSON '/places.json', (data) ->
   google.maps.event.addDomListener window, "load", do ->
     plot(place) for place in data
   

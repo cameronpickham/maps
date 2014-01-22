@@ -1,5 +1,6 @@
 #!/usr/bin/env coffee
 
-parser = require './parser'
-
-parser.scrape()
+scraper = require '../lib/data-manager/scraper'
+scraper.run (err) ->
+  console.log 'Done'
+  process.exit(0)

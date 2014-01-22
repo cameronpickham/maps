@@ -4,13 +4,13 @@ html
   head
     title Maps
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
-    link(rel='stylesheet', href='stylesheets/index.css')
+    link(rel='stylesheet', href='/stylesheets/index.css')
     script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false')
     script(src='http://mbostock.github.com/d3/d3.js?1.29.1', charset='utf-8')
     script(type='text/javascript', src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js')
-    script(src='./bootstrap/js/bootstrap.js')
-    script(type='text/javascript', src='./javascripts/namespace.js')
-    script(type='text/javascript', src='./javascripts/overlay.js')
+    script(src='/bootstrap/js/bootstrap.js')
+    script(type='text/javascript', src='/js/namespace.js')
+    script(type='text/javascript', src='/js/overlay.js')
       
   body
     .navbar.navbar-fixed-top.navbar-inverse: .navbar-inner: .container
@@ -36,5 +36,4 @@ html
                 input(id="input-#{place._id}")(type='hidden', value='#{place.latLng}')
             #close.button.btn.btn-default(type='button') Close
         #map-canvas
-    script(type='text/javascript', src='./javascripts/app.js')
-
+    script(type='text/javascript', src='/js/app.js')
