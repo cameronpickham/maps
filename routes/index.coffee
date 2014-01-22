@@ -10,7 +10,6 @@ module.exports = (app, passport) ->
 
   app.get '/places.json', (req, res) ->
     DATA_MANAGER.getPlaces (err, data) ->
-      console.log data
       res.json(data)
 
   app.post '/', (req, res) ->
