@@ -9,7 +9,7 @@ DATA_MANAGER = require './index'
 module.exports =
   pullData: (offset, cb) ->
     options =
-      uri: 'https://api.foursquare.com/v2/users/self/checkins?oauth_token='
+      uri: 'https://api.foursquare.com/v2/users/self/checkins'
       qs:
         oauth_token:     config.accessToken
         v:               20130829

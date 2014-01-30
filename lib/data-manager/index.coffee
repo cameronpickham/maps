@@ -10,6 +10,7 @@ module.exports =
 
   summarizePlace: (checkin) ->
     { venue, createdAt }   = checkin
+    return false unless venue
     { name, location, id } = venue
     latLng = [location.lat, location.lng]
 
@@ -21,4 +22,5 @@ module.exports =
 
   handleNew: (checkin, cb) ->
     summarized = @summarizePlace(checkin)
+    return cb(null) unless summarized
     Place.createOrUpdate(summarized, cb)
