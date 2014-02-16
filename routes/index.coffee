@@ -1,4 +1,5 @@
 DATA_MANAGER = require '../lib/data-manager'
+SCRAPER      = require '../lib/data-manager/scraper'
 
 module.exports = (app, passport) ->
   app.get '/', (req, res, next) ->
@@ -13,6 +14,11 @@ module.exports = (app, passport) ->
       res.json(data)
 
   app.post '/', (req, res) ->
-    checkin = JSON.parse(req.body.checkin)
-    DATA_MANAGER.handleNew checkin, (err) ->
-      res.send 'Thx dude'
+    if req.body?
+      checkin = JSON.parse(req.body.checkin)
+      DATA_MANAGER.handleNew checkin, (err) ->
+        res.send 'Thx dude'
+    else
+      SCRAPER.run (err) ->
+        console.log 'Foursquare gave you a bad POST so I scraped'
+        res.send ':('
