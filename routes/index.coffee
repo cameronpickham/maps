@@ -15,6 +15,7 @@ module.exports = (app, passport) ->
 
   app.post '/', (req, res) ->
     if req.body?
+      console.log 'You got it right this time!'
       checkin = JSON.parse(req.body.checkin)
       DATA_MANAGER.handleNew checkin, (err) ->
         res.send 'Thx dude'
