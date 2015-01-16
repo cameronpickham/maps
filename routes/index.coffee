@@ -13,7 +13,21 @@ module.exports = (app, passport) ->
     DATA_MANAGER.getPlaces (err, data) ->
       res.json(data)
 
-  app.post '/', (req, res) ->
+  app.get '/', (req, res) ->
+    console.log 'wtf dude you are not supposed to be here'
+    res.send("what")
+
+  app.post '/push', (req, res) ->
+    console.log ':(((', req.body
+    body = ''
+    req.on 'data', (data) ->
+      body += data
+
+    req.on 'end', ->
+
+      console.log 'body!!', decodeURI(body)
+    res.send 200
+    ###
     if req.body?
       console.log 'You got it right this time!'
       checkin = JSON.parse(req.body.checkin)
@@ -23,3 +37,4 @@ module.exports = (app, passport) ->
       SCRAPER.run (err) ->
         console.log 'Foursquare gave you a bad POST so I scraped'
         res.send ':('
+    ###

@@ -11,18 +11,17 @@ module.exports =
     options =
       uri: 'https://api.foursquare.com/v2/users/self/checkins'
       qs:
-        oauth_token:     config.accessToken
-        v:               20130829
-        limit:           250
-        offset:          offset
-        beforeTimestamp: 9999999999
-        afterTimestamp:  0
+        oauth_token: config.accessToken
+        limit:       250
+        offset:      offset
+        v:           20150116
 
     request.get options, (err, res, body) ->
       return cb(err) if err
 
       body = JSON.parse(body)
       items = body.response.checkins.items
+      console.log items.length
       cb(null, items)
 
   run: (cb) ->
@@ -53,4 +52,6 @@ module.exports =
 
       test = -> not done
 
-      async.doWhilst(fn, test, cb)
+      async.doWhilst fn, test, (err) ->
+        console.log 'total', total
+        cb(err)

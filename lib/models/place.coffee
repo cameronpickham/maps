@@ -8,7 +8,7 @@ schema = new Schema {
   name:      { type: String, index: true }
   latLng:    { type: Array,  index: true }
   count:     { type: Number, index: true, default: 1 }
-  createdAt: { type: String, index: true }
+  createdAt: { type: Number, index: true }
 }, { collection: 'places' }
 
 schema.statics =
